@@ -1,7 +1,5 @@
-class Solution {
-     public String reverseParentheses(String s) {
+public String reverseParentheses(String s) {
         Stack<Character> stack = new Stack<>();
-        String result = new String();
         for(int i=0;i<s.length();i++){
             if(s.charAt(i) == ')'){
                 String concatValue = new String();
@@ -16,11 +14,7 @@ class Solution {
             } else
                 stack.push(s.charAt(i));
         }
-        int size = stack.size();
-        for(int j = 0;j< size;j++){
-            result += stack.pop();
-        }
-        StringBuilder sb = new StringBuilder(result);
-        return sb.reverse().toString();
+        return stack.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining());
     }
-}
