@@ -36,12 +36,6 @@ class Solution {
             }
             tempPrev.next = next;
             if(prev != null) {
-                // ListNode dummyHead = head;
-                // while(dummyHead.val != prev.val) {
-                //     dummyHead = dummyHead.next;
-                // }
-                // dummyHead.next = tempHead;
-                prev.next = tempHead;
                 return head;
             } else {
                 return tempHead;
