@@ -28,7 +28,7 @@ class Solution {
             insert(nums[startIndex]);
             return;
         }
-        int mid = (int) Math.ceil((double)(startIndex + endIndex) / 2);
+        int mid = startIndex + (endIndex - startIndex) / 2;
         insert(nums[mid]);
         divideAndConquer(nums, startIndex, mid-1);
         divideAndConquer(nums, mid+1, endIndex);
