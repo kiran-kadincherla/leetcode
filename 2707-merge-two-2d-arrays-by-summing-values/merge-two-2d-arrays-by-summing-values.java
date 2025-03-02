@@ -1,6 +1,7 @@
 class Solution {
-    public int[][] mergeArrays(int[][] nums1, int[][] nums2) {
-        Map<Integer, Integer> resultMap = new HashMap();
+
+            public int[][] mergeArrays(int[][] nums1, int[][] nums2) {
+        Map<Integer, Integer> resultMap = new TreeMap<>();
         for (int i = 0; i < nums1.length; i++) {
             resultMap.put(nums1[i][0], nums1[i][1]);
         }
@@ -17,15 +18,10 @@ class Solution {
 
         int[][] nums3 = new int[resultMap.size()][2];
 
-        int[] keys = new int[resultMap.size()];
         int index = 0;
-        for(Integer key : resultMap.keySet()){
-            keys[index++] = key;
-        }
-        Arrays.sort(keys);
-        for (int i=0;i<keys.length;i++){
-            nums3[i][0] = keys[i];
-            nums3[i][1] = resultMap.get(keys[i]);
+        for(Map.Entry<Integer, Integer> entry : resultMap.entrySet()){
+            nums3[index][0] = entry.getKey();
+            nums3[index++][1] = entry.getValue();
         }
         return nums3;
     }
