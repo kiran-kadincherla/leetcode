@@ -10,7 +10,6 @@ class Solution {
         if(currentIndex >= nums.length){
             return 0;
         }
-        System.out.println("Current Index: " + currentIndex);
         if(memo.containsKey(currentIndex)){
             return memo.get(currentIndex);
         } 
