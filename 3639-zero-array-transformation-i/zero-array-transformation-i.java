@@ -1,5 +1,5 @@
 class Solution {
-    public boolean isZeroArray(int[] nums, int[][] queries) {
+       public boolean isZeroArray(int[] nums, int[][] queries) {
         int[] diffArr = new int[nums.length+1];
         int[] preSumArr = new int[nums.length];
         for (int[] query : queries) {
@@ -9,14 +9,15 @@ class Solution {
         int sum = 0;
         for(int i=0;i<diffArr.length-1;i++){
             sum += diffArr[i];
-            preSumArr[i] = sum; //will optimise this later
+            if(nums[i] - sum > 0)
+                return false;
         }
 
-        for(int i=0;i<preSumArr.length;i++){
-            if(nums[i] - preSumArr[i] > 0){
-                return false;
-            }
-        }
+//        for(int i=0;i<preSumArr.length;i++){
+//            if(nums[i] - preSumArr[i] > 0){
+//                return false;
+//            }
+//        }
         return true;
     }
 }
