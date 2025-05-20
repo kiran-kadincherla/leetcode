@@ -1,7 +1,6 @@
 class Solution {
        public boolean isZeroArray(int[] nums, int[][] queries) {
         int[] diffArr = new int[nums.length+1];
-        int[] preSumArr = new int[nums.length];
         for (int[] query : queries) {
             diffArr[query[0]] += 1;
             diffArr[query[1] + 1] -= 1;
@@ -12,12 +11,6 @@ class Solution {
             if(nums[i] - sum > 0)
                 return false;
         }
-
-//        for(int i=0;i<preSumArr.length;i++){
-//            if(nums[i] - preSumArr[i] > 0){
-//                return false;
-//            }
-//        }
         return true;
     }
 }
