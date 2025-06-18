@@ -1,5 +1,5 @@
 class Solution {
-   public int findCircleNum(int[][] isConnected) {
+       public int findCircleNum(int[][] isConnected) {
         Map<Integer, List<Integer>> edges = new HashMap<>();
         Set<Integer> visitedVertices = new HashSet<>();
         int result = 0;
@@ -16,7 +16,7 @@ class Solution {
 
         for(Integer vertice : edges.keySet()){
             if(!visitedVertices.contains(vertice)) {
-                visitedVertices.addAll(bfs(edges, new HashSet<>(), new LinkedList<>(), vertice));
+                visitedVertices.addAll(dfs(edges, new HashSet<>(), vertice));
                 result++;
             }
 
@@ -42,4 +42,24 @@ class Solution {
         }
 
     }
+
+    private Set<Integer> dfs(Map<Integer, List<Integer>> edges, Set<Integer> visited, Integer current) {
+    Set<Integer> connected = new HashSet<>();
+    dfsHelper(edges, visited, current, connected);
+    return connected;
+}
+
+private void dfsHelper(Map<Integer, List<Integer>> edges, Set<Integer> visited, Integer current, Set<Integer> connected) {
+    if (visited.contains(current)) return;
+
+    visited.add(current);
+    connected.add(current);
+
+    List<Integer> neighbors = edges.getOrDefault(current, new ArrayList<>());
+    for (Integer neighbor : neighbors) {
+        if (!visited.contains(neighbor)) {
+            dfsHelper(edges, visited, neighbor, connected);
+        }
+    }
+}
 }
