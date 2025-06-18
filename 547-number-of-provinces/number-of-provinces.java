@@ -16,7 +16,7 @@ class Solution {
 
         for(Integer vertice : edges.keySet()){
             if(!visitedVertices.contains(vertice)) {
-                visitedVertices.addAll(dfs(edges, new HashSet<>(), vertice));
+                visitedVertices.addAll(bfs(edges, vertice));
                 result++;
             }
 
@@ -24,22 +24,27 @@ class Solution {
         return result;
     }
 
-    private Set<Integer> bfs(Map<Integer,List<Integer>> edges, Set<Integer> visitedVertices, Queue<Integer> connectedVertices, Integer currentVertice){
-        if(visitedVertices.contains(currentVertice)){
-            if(!connectedVertices.isEmpty()) {
-                return bfs(edges, visitedVertices, connectedVertices, connectedVertices.poll());
+    private Set<Integer> bfs(Map<Integer,List<Integer>> edges, Integer startingNode) {
+        Set<Integer> connected = new HashSet<>();
+        Queue<Integer> queue = new LinkedList<>();
+        Set<Integer> visited = new HashSet<>();
+
+        queue.add(startingNode);
+        visited.add(startingNode);
+
+        while (!queue.isEmpty()){
+            Integer node = queue.poll();
+            connected.add(node);
+            List<Integer> connectedEdges = edges.getOrDefault(node, new ArrayList<>());
+            for(Integer edge : connectedEdges) {
+                if(!visited.contains(edge)){
+                    queue.add(edge);
+                    visited.add(edge);
+                }
             }
-            else
-                return visitedVertices;
         }
-        visitedVertices.add(currentVertice);
-        List<Integer> vertices = edges.get(currentVertice);
-        if(!vertices.isEmpty()){
-            connectedVertices.addAll(vertices);
-            return bfs(edges, visitedVertices, connectedVertices, connectedVertices.poll());
-        } else {
-            return visitedVertices;
-        }
+        return connected;
+
 
     }
 
