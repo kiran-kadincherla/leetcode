@@ -1,18 +1,18 @@
 class Solution {
 
-    public boolean canFinish(int numCourses, int[][] prerequisites) {
+     public boolean canFinish(int numCourses, int[][] prerequisites) {
         Map<Integer, List<Integer>> adjList = new HashMap<>();
 
         for (int[] edge : prerequisites) {
             adjList.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
         }
 
-        return hasCycle(adjList, numCourses);
+        return isAcyclic(adjList, numCourses);
     }
 
-     private boolean hasCycle(Map<Integer, List<Integer>> edges, int numCourses){
+    private boolean isAcyclic(Map<Integer, List<Integer>> edges, int numCourses){
         int[] inDegree = new int[numCourses];
-        Stack<Integer> topologicalOrder = new Stack<>();
+        Stack<Integer> stack = new Stack<>();
         int noOfNodesProcessed = 0;
 
         for(List<Integer> connectedEdges : edges.values()){
@@ -25,21 +25,18 @@ class Solution {
 
         for(int i=0;i<inDegree.length;i++){
             if(inDegree[i] == 0){
-                topologicalOrder.add(i);
+                stack.add(i);
             }
         }
 
-        while(!topologicalOrder.isEmpty()){
-            int node = topologicalOrder.pop();
+        while(!stack.isEmpty()){
+            int node = stack.pop();
             List<Integer> connectedEdges = edges.get(node);
             if(connectedEdges != null){
-                for(Integer edge : connectedEdges) {
-                    if(inDegree[edge] != 0) {
-                        if(inDegree[edge]-1 == 0){
-                            topologicalOrder.add(edge);
-                        } else {
-                            inDegree[edge] -= 1;
-                        }
+                for(Integer neighbor : connectedEdges) {
+                    inDegree[neighbor]--;
+                    if (inDegree[neighbor] == 0) {
+                        stack.push(neighbor);
                     }
                 }
             }
@@ -47,5 +44,4 @@ class Solution {
         }
         return noOfNodesProcessed == numCourses;
     }
-
 }
