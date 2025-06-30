@@ -1,6 +1,5 @@
 class Solution {
-    
-    
+
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         Map<Integer, List<Integer>> adjList = new HashMap<>();
 
@@ -8,35 +7,44 @@ class Solution {
             adjList.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
         }
 
-        boolean[] visited = new boolean[numCourses];
-        boolean[] onPath = new boolean[numCourses];
-
-    
-          for (int i = 0; i < numCourses; i++) {
-            if (hasCycle(adjList, visited, onPath, i)) {
-                return false;
-            }
-        }
-        return true;
+        return hasCycle(adjList, numCourses);
     }
+     private boolean hasCycle(Map<Integer, List<Integer>> edges, int numCourses){
+        int[] inDegree = new int[numCourses];
+        Stack<Integer> topologicalOrder = new Stack<>();
+        Set<Integer> visitedNodes = new HashSet<>();
 
-    private boolean hasCycle(Map<Integer, List<Integer>> edges, boolean[] visited, boolean[] onPath,  int current){
-        if(onPath[current]) return true;
-        if(visited[current]) return false;
-        List<Integer> connectedVertices = edges.get(current);
-
-        visited[current] = true;
-        onPath[current] = true;
-
-        if(connectedVertices != null){
-            for(Integer vertice : connectedVertices){
-                if(hasCycle(edges, visited, onPath, vertice)){
-                    return true;
+        for(List<Integer> connectedEdges : edges.values()){
+            if(connectedEdges != null){
+                for(Integer connectedEdge : connectedEdges) {
+                    inDegree[connectedEdge] += 1;
                 }
             }
         }
 
-        onPath[current] = false;
-        return false;
+        for(int i=0;i<inDegree.length;i++){
+            if(inDegree[i] == 0){
+                topologicalOrder.add(i);
+            }
+        }
+
+        while(!topologicalOrder.isEmpty()){
+            int node = topologicalOrder.pop();
+            List<Integer> connectedEdges = edges.get(node);
+            if(connectedEdges != null){
+                for(Integer edge : connectedEdges) {
+                    if(inDegree[edge] != 0) {
+                        if(inDegree[edge]-1 == 0){
+                            topologicalOrder.add(edge);
+                        } else {
+                            inDegree[edge] -= 1;
+                        }
+                    }
+                }
+            }
+            visitedNodes.add(node);
+        }
+        return visitedNodes.size() == numCourses;
     }
+
 }
