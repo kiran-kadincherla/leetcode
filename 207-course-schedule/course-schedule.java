@@ -9,10 +9,11 @@ class Solution {
 
         return hasCycle(adjList, numCourses);
     }
+
      private boolean hasCycle(Map<Integer, List<Integer>> edges, int numCourses){
         int[] inDegree = new int[numCourses];
         Stack<Integer> topologicalOrder = new Stack<>();
-        Set<Integer> visitedNodes = new HashSet<>();
+        int noOfNodesProcessed = 0;
 
         for(List<Integer> connectedEdges : edges.values()){
             if(connectedEdges != null){
@@ -42,9 +43,9 @@ class Solution {
                     }
                 }
             }
-            visitedNodes.add(node);
+            noOfNodesProcessed++;
         }
-        return visitedNodes.size() == numCourses;
+        return noOfNodesProcessed == numCourses;
     }
 
 }
