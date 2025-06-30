@@ -1,40 +1,42 @@
 class Solution {
+    
+    
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        // Build adjacency list
-        List<Integer>[] graph = new ArrayList[numCourses];
-        for (int i = 0; i < numCourses; i++) {
-            graph[i] = new ArrayList<>();
-        }
+        Map<Integer, List<Integer>> adjList = new HashMap<>();
+
         for (int[] edge : prerequisites) {
-            graph[edge[0]].add(edge[1]);
+            adjList.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
         }
-        
+
         boolean[] visited = new boolean[numCourses];
         boolean[] onPath = new boolean[numCourses];
-        
-        for (int i = 0; i < numCourses; i++) {
-            if (!visited[i] && hasCycle(graph, i, visited, onPath)) {
+
+    
+          for (int i = 0; i < numCourses; i++) {
+            if (hasCycle(adjList, visited, onPath, i)) {
                 return false;
             }
         }
         return true;
     }
-    
-    private boolean hasCycle(List<Integer>[] graph, int current, 
-                           boolean[] visited, boolean[] onPath) {
-        if (onPath[current]) return true;  // Cycle detected
-        if (visited[current]) return false; // Already processed
-        
+
+    private boolean hasCycle(Map<Integer, List<Integer>> edges, boolean[] visited, boolean[] onPath,  int current){
+        if(onPath[current]) return true;
+        if(visited[current]) return false;
+        List<Integer> connectedVertices = edges.get(current);
+
         visited[current] = true;
         onPath[current] = true;
-        
-        for (int neighbor : graph[current]) {
-            if (hasCycle(graph, neighbor, visited, onPath)) {
-                return true;
+
+        if(connectedVertices != null){
+            for(Integer vertice : connectedVertices){
+                if(hasCycle(edges, visited, onPath, vertice)){
+                    return true;
+                }
             }
         }
-        
-        onPath[current] = false; // Backtrack
+
+        onPath[current] = false;
         return false;
     }
 }
