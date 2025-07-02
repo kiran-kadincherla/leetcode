@@ -1,4 +1,5 @@
 class Solution {
+    // Prefix Sum with Difference Array
        public boolean isZeroArray(int[] nums, int[][] queries) {
         int[] diffArr = new int[nums.length+1];
         for (int[] query : queries) {
