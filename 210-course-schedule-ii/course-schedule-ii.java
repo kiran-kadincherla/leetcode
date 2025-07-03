@@ -3,7 +3,7 @@ class Solution {
         Map<Integer, List<Integer>> adjList = new HashMap<>();
 
         for (int[] edge : prerequisites) {
-            adjList.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+            adjList.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
         }
 
         return topologicalSort(numCourses, adjList);
@@ -49,18 +49,7 @@ class Solution {
         if(noOfNodesProcessed != numCourses){
             return new int[]{};
         } else {
-            // List<int[]> list = Arrays.asList(result);
-            // Collections.reverse(Collections.singletonList(result));
-            // // Convert back to array if needed
-            // list.toArray();
-            // return result;
-
-            int[] reversed = new int[result.length];
-            for (int i = 0; i < result.length; i++) {
-                reversed[result.length - 1 - i] = result[i];
-            }
-            return reversed;
+            return result;
         }
-
     }
 }
