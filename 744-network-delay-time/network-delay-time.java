@@ -88,7 +88,7 @@ class Solution {
 
         @Override
         public int compareTo(Node o) {
-            return o.getShortestDistance();
+            return Integer.compare(this.shortestDistance, o.shortestDistance);
         }
     }
 
