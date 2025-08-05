@@ -1,18 +1,18 @@
 class Solution {
         Integer[] memo1;
     public int mincostTickets(int[] days, int[] costs) {
-        memo1 = new Integer[days.length];
+        memo1 = new Integer[days[days.length-1]+1];
         return getMinCost(0, days, costs);
     }
 
-   private int getMinCost(int currentIndex, int[] days, int[] costs) {
+    private int getMinCost(int currentIndex, int[] days, int[] costs) {
 
         if(currentIndex >= days.length){
             return 0;
         }
-        if(memo1[currentIndex] != null){
+        if(memo1[days[currentIndex]] != null){
             System.out.println("getting from memo");
-            return memo1[currentIndex];
+            return memo1[days[currentIndex]];
         }
         int oneDayPass =  Integer.MAX_VALUE, sevenDaysPass =  Integer.MAX_VALUE, oneMonthPass = Integer.MAX_VALUE;
 
@@ -38,8 +38,10 @@ class Solution {
 
         oneMonthPass = costs[2] + getMinCost(indexAfterthirtythDay, days, costs);
         int result = Math.min(oneDayPass, Math.min(sevenDaysPass, oneMonthPass));
-        memo1[currentIndex] = result;
+        memo1[days[currentIndex]] = result;
         return result;
     }
+
+
 
 }
