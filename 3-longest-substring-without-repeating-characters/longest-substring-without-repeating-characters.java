@@ -1,41 +1,24 @@
 class Solution {
-   
-       public int lengthOfLongestSubstring(String s) {
+    public int lengthOfLongestSubstring(String s) {
         int p1 = 0;
-        int p2 = 1;
-        Set<Character> charSet = new HashSet<>();
-        String currentLongestSubStr = "";
-        if(s.length() < 2){
-            return s.length();
-        }
-
-
-        charSet.add(s.charAt(p1));
-        while(p2 < s.length()){
-            char currentCharecter = s.charAt(p2);
-            if(!charSet.contains(currentCharecter)){
-                charSet.add(currentCharecter);
-            } else {
-                if(currentLongestSubStr.length() < charSet.size()){
-                    currentLongestSubStr = s.substring(p1,p2);
+        int p2 = 0;
+        int longestStrLen = 0;
+        Set<Character> uniqueChars = new HashSet<>();
+        while(p2<s.length()){
+            if(uniqueChars.contains(s.charAt(p2))){
+                longestStrLen = Math.max(longestStrLen, p2-p1);
+                for(int i=p1;i<p2;i++){
+                    if(s.charAt(i)==s.charAt(p2)){
+                        p1=i+1;
+                        break;
+                    }
                 }
-                while(s.charAt(p1) != currentCharecter){
-                    charSet.remove(s.charAt(p1));
-                    p1++;
-
-                }
-                p1++;
+            } else{
+                uniqueChars.add(s.charAt(p2));
             }
             p2++;
         }
-
-        if(currentLongestSubStr.length() < charSet.size()){
-            currentLongestSubStr = s.substring(p1,p2);
-        }
-
-        return currentLongestSubStr.length();
+        longestStrLen = Math.max(longestStrLen, p2-p1);
+        return longestStrLen;
     }
-
-     
-
 }
