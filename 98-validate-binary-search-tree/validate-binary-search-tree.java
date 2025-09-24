@@ -14,25 +14,23 @@
  * }
  */
 class Solution {
-    Integer minVal = null;
-    boolean isValid = true;
+    Integer prev = null;
     public boolean isValidBST(TreeNode root) {
-        inOrder(root);
-        return isValid;
+        return inOrder(root);
     }
 
-    private void inOrder(TreeNode root){
+    private boolean inOrder(TreeNode root){
         if(root == null){
-            return;
+            return true;
         }
-        inOrder(root.left);
-        if(minVal!=null && root.val<=minVal){
-            isValid = false;
-            return;
+        boolean left = inOrder(root.left);
+        if(prev!=null && root.val<=prev){
+            return false;
         } else {
-            minVal=root.val;
+            prev=root.val;
         }
-        inOrder(root.right);
+        boolean right = inOrder(root.right);
+        return left == true && right == true;
     }
 
     
