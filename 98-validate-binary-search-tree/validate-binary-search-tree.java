@@ -14,34 +14,28 @@
  * }
  */
 class Solution {
+    Integer minVal = null;
+    boolean isValid = true;
     public boolean isValidBST(TreeNode root) {
-        ArrayList<Integer> inOrderTraversalResultArray = DFSInOrder(root);
-        if(inOrderTraversalResultArray != null && inOrderTraversalResultArray.size() > 1){
-            for(int i=1;i<inOrderTraversalResultArray.size();i++){
-                if(inOrderTraversalResultArray.get(i) <= inOrderTraversalResultArray.get(i-1))
-                    return false;
-            }
-            return true;
-        } else {
-            return true;
-        }
+        inOrder(root);
+        return isValid;
     }
 
-    private ArrayList<Integer> DFSInOrder(TreeNode root){
+    private void inOrder(TreeNode root){
         if(root == null){
-            return null;
-        } else {
-            return DFSInOrder(new ArrayList<>(), root);
+            return;
         }
+        inOrder(root.left);
+        if(minVal!=null && root.val<=minVal){
+            isValid = false;
+            return;
+        } else {
+            minVal=root.val;
+        }
+        inOrder(root.right);
     }
 
-    private ArrayList<Integer> DFSInOrder(ArrayList<Integer> result, TreeNode currentNode){
-        if(currentNode == null) {
-            return null;
-        }
-        DFSInOrder(result, currentNode.left);
-        result.add(currentNode.val);
-        DFSInOrder(result, currentNode.right);
-        return result;
-    }
+    
+
+  
 }
