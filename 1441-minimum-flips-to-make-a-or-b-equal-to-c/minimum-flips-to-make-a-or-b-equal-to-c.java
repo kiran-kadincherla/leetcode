@@ -26,22 +26,12 @@ class Solution {
             if (((string1.charAt(i) - '0') | (string2.charAt(i) - '0')) != (string3.charAt(i) - '0')) {
                 if(string3.charAt(i) - '0' == 0){
                     if (string1.charAt(i) - '0' == 1 && string2.charAt(i) - '0' == 1){
-                        string1.replace(i, i+1, String.valueOf(0));
                         count++;
-                        string2.replace(i, i+1, String.valueOf(0));
                         count++;
                     } else {
-                        if (string1.charAt(i) - '0' == 1){
-                            string1.replace(i, i+1, String.valueOf(0));
-                            count++;
-                        } else {
-                            string2.replace(i, i+1, String.valueOf(0));
-                            count++;
-                        }
+                        count++;
                     }
                 } else {
-                    char newVal = string1.charAt(i) == '0' ? '1' : '0';
-                    string1.replace(i, i+1, String.valueOf(newVal));
                     count++;
                 }
             }
