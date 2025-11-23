@@ -1,33 +1,34 @@
 class Solution {
-    int[][] dp;
-    List<Integer> nums;
-    public int lengthOfLongestSubsequence(List<Integer> nums, int target) {
-        dp = new int[1001][1001];
-        this.nums = nums;
-        for (int i = 0; i < 1001; i++) {
-            Arrays.fill(dp[i], -1);
-        }
+    int target;
 
-        int ans = solve(0, target);
-        if(ans < 0){
-            return -1;
-        }
-        return ans;
+    Integer[][] dp; //memo[index][sum]
+
+    public int lengthOfLongestSubsequence(List<Integer> nums, int target) {
+        dp = new Integer[nums.size()][target+1];
+        this.target=target;
+        int result = getCount(nums, 0, 0);
+        return result > 0 ? result : -1;
     }
 
-    public int solve(int currentIndex, int target) {
-        if(target == 0){
+    private int getCount(List<Integer> nums, int index, int sum){
+        if(sum == target){
             return 0;
         }
-        if(target < 0  || currentIndex >= nums.size()){
-            return Integer.MIN_VALUE;
+        if(index >= nums.size() || sum > target){
+            return -100000;
         }
-        if(dp[currentIndex][target] != -1){
-            return dp[currentIndex][target];
+        if(dp[index][sum] != null){
+            return dp[index][sum];
         }
-        int left =  solve(currentIndex+1, target);
-        int right = 1+ solve(currentIndex+1, target-nums.get(currentIndex));
-        dp[currentIndex][target] = Math.max(left, right);
-        return dp[currentIndex][target];
+        
+        
+        int skip =  getCount(nums, index+1, sum);
+        int pick = 1 + getCount(nums, index+1, sum+nums.get(index));
+        int best = Math.max(skip, pick);
+        dp[index][sum] = best;
+
+        return best;
+       
     }
+
 }
