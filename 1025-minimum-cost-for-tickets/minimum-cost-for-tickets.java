@@ -1,47 +1,34 @@
 class Solution {
-        Integer[] memo1;
+    int[] memo;
     public int mincostTickets(int[] days, int[] costs) {
-        memo1 = new Integer[days[days.length-1]+1];
+        memo = new int[days[days.length-1]];
+        Arrays.fill(memo, -1);
         return getMinCost(0, days, costs);
     }
 
-    private int getMinCost(int currentIndex, int[] days, int[] costs) {
-
-        if(currentIndex >= days.length){
+    private int getMinCost(int currentDayIndex, int[] days, int[] costs){
+        if(currentDayIndex >= days.length){
             return 0;
         }
-        if(memo1[days[currentIndex]] != null){
-            System.out.println("getting from memo");
-            return memo1[days[currentIndex]];
+        if(memo[currentDayIndex]!=-1){
+            return memo[currentDayIndex];
         }
-        int oneDayPass =  Integer.MAX_VALUE, sevenDaysPass =  Integer.MAX_VALUE, oneMonthPass = Integer.MAX_VALUE;
-
-        if(currentIndex <= days.length-1) {
-            oneDayPass = costs[0] + getMinCost(currentIndex+1, days, costs);
-        }
-
-        int seventhDay = days[currentIndex] + 6;
-        int thirthythDay = days[currentIndex] + 29;
-
-
-        int indexAfterSeventhDay = currentIndex;
-        while(indexAfterSeventhDay < days.length && days[indexAfterSeventhDay]<=seventhDay){
-            indexAfterSeventhDay++;
-        }
-
-        sevenDaysPass = costs[1] + getMinCost(indexAfterSeventhDay, days, costs);
-
-        int indexAfterthirtythDay = currentIndex;
-        while(indexAfterthirtythDay < days.length && days[indexAfterthirtythDay]<=thirthythDay){
-            indexAfterthirtythDay++;
-        }
-
-        oneMonthPass = costs[2] + getMinCost(indexAfterthirtythDay, days, costs);
-        int result = Math.min(oneDayPass, Math.min(sevenDaysPass, oneMonthPass));
-        memo1[days[currentIndex]] = result;
-        return result;
+        int oneDaypassPrice = costs[0] + getMinCost(currentDayIndex+1, days, costs);
+        int sevenDayIndex = getIndex(days, days[currentDayIndex]+7);
+        int sevenDayPassPrice = costs[1] + getMinCost(sevenDayIndex, days, costs);
+        int thirtyDayIndex = getIndex(days, days[currentDayIndex]+30);
+        int thirtyDayPassPrice = costs[2] + getMinCost(thirtyDayIndex, days, costs);
+        int temp = Math.min(oneDaypassPrice, sevenDayPassPrice);
+        int finalResult = Math.min(temp, thirtyDayPassPrice);
+        memo[currentDayIndex] = finalResult;
+        return finalResult;
     }
 
-
-
+    private int getIndex(int[] days, int maxVal){
+        int index = 0;
+        while(index < days.length && days[index] < maxVal){
+            index++;
+        }
+        return index;
+    }
 }
