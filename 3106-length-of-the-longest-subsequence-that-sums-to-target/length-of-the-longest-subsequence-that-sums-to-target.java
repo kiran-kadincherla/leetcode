@@ -1,34 +1,33 @@
 class Solution {
-    int target;
 
-    Integer[][] dp; //memo[index][sum]
+    Integer[][] memo;
 
     public int lengthOfLongestSubsequence(List<Integer> nums, int target) {
-        dp = new Integer[nums.size()][target+1];
-        this.target=target;
-        int result = getCount(nums, 0, 0);
-        return result > 0 ? result : -1;
+        memo = new Integer[nums.size()][target+1];
+        Arrays.stream(memo).forEach(x->Arrays.fill(x, null));
+
+        int result = getLongestSubSequence(nums, 0, target);
+        if(result < 0){
+            return -1;
+        }
+        return result;
     }
 
-    private int getCount(List<Integer> nums, int index, int sum){
-        if(sum == target){
+    public int getLongestSubSequence(List<Integer> nums, int currentIndex, int balanceAmount){
+        if(balanceAmount == 0){
             return 0;
         }
-        if(index >= nums.size() || sum > target){
-            return -100000;
+        if(currentIndex >= nums.size() || balanceAmount < 0){
+            return Integer.MIN_VALUE;
         }
-        if(dp[index][sum] != null){
-            return dp[index][sum];
+        if(memo[currentIndex][balanceAmount]!=null){
+            return memo[currentIndex][balanceAmount];
         }
-        
-        
-        int skip =  getCount(nums, index+1, sum);
-        int pick = 1 + getCount(nums, index+1, sum+nums.get(index));
-        int best = Math.max(skip, pick);
-        dp[index][sum] = best;
+        int skip = getLongestSubSequence(nums, currentIndex+1, balanceAmount);
+        int pick = 1+getLongestSubSequence(nums, currentIndex+1, balanceAmount-nums.get(currentIndex));
+        memo[currentIndex][balanceAmount] = Math.max(skip, pick);
+        return memo[currentIndex][balanceAmount];
 
-        return best;
-       
     }
 
 }
