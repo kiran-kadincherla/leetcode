@@ -27,12 +27,13 @@ class Solution {
         } else {
             for(Integer index : indexes){
                 boolean result = isPossible(s, wordDict, index+1);
-                memo[index+1] = result;
-                if(result == true){
+                if(result){
+                    memo[currentIndex] = true;
                     return true;
                 }
             }
         }
+        memo[currentIndex] = false;
         return false;
     }
 }
