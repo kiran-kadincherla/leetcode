@@ -1,29 +1,38 @@
 class Solution {
-    Set<String> dictionary;
-    String s;
-    Map<String, Boolean> memo = new HashMap<>();
+    Boolean[] memo;
     public boolean wordBreak(String s, List<String> wordDict) {
-        this.s=s;
-        dictionary = new HashSet<>(wordDict);
-        return isValid(0);
+        memo = new Boolean[s.length()+1];
+        Set<String> wordDictSet = new HashSet<>(wordDict);
+        Arrays.fill(memo, null);
+        return isPossible(s, wordDictSet, 0);
     }
-    private boolean isValid(int position){
-        if(position == s.length()){
+
+    private boolean isPossible(String s, Set<String> wordDict, int currentIndex){
+        if(currentIndex == s.length()){
             return true;
         }
-        if(memo.containsKey(s.substring(position,s.length()))){
-            System.out.println("getting from memo" + s.substring(position, s.length()));
-            return memo.get(s.substring(position, s.length()));
+        if(memo[currentIndex]!=null){
+            return memo[currentIndex];
         }
-        String newWord = "";
-        for(int i=position;i<s.length();i++){
-            newWord += String.valueOf(s.charAt(i));
-            if(dictionary.contains(newWord) && isValid(i+1)){
-                memo.put(s.substring(i, s.length()), true);
-                return true;
+        StringBuilder sb = new StringBuilder();
+        List<Integer> indexes = new ArrayList<>();
+        for(int i=currentIndex;i<s.length();i++){
+            sb.append(s.charAt(i));
+            if(wordDict.contains(sb.toString())){
+                indexes.add(i);
             }
         }
-        memo.put(s.substring(position, s.length()), false);
+        if(indexes.isEmpty()){
+            return false;
+        } else {
+            for(Integer index : indexes){
+                boolean result = isPossible(s, wordDict, index+1);
+                memo[index+1] = result;
+                if(result == true){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 }
