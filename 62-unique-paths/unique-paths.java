@@ -1,9 +1,9 @@
 class Solution {
 
-    Integer[][] memo;
+    int[][] memo;
     public int uniquePaths(int m, int n) {
-        memo = new Integer[m][n];
-        Arrays.stream(memo).forEach(x->Arrays.fill(x, null));
+        memo = new int[m][n];
+        Arrays.stream(memo).forEach(x->Arrays.fill(x, -1));
         return getCount(m,n,0,0);
     }
 
@@ -14,7 +14,7 @@ class Solution {
         if(top == m-1 && right == n-1){
             return 1;
         }
-        if(memo[top][right]!=null){
+        if(memo[top][right]!=-1){
             return memo[top][right];
         }
         int count1 = getCount(m,n,top+1, right);
