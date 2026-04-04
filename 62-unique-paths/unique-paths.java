@@ -1,27 +1,26 @@
 class Solution {
-    int totalCount = 0;
-    int dp[][];
+
+    Integer[][] memo;
     public int uniquePaths(int m, int n) {
-        dp = new int[m][n];
-        for(int i=0;i<m;i++){
-            Arrays.fill(dp[i], -1);
-        }
-        return getCount(m, n, 0, 0);
+        memo = new Integer[m+1][n+1];
+        Arrays.stream(memo).forEach(x->Arrays.fill(x, null));
+        return getCount(m,n,0,0);
     }
 
-    private int getCount(int m, int n, int rowIndex, int colIndex){
-        if(rowIndex >= m || colIndex >= n){
+    private int getCount(int m, int n, int top, int right){
+        if(top >= m || right >= n){
             return 0;
         }
-        if(dp[rowIndex][colIndex] != -1){
-            return dp[rowIndex][colIndex];
-        }
-        if(rowIndex == m-1 && colIndex == n-1){
+        if(top == m-1 && right == n-1){
             return 1;
         }
-        int down = getCount(m, n, rowIndex+1, colIndex);
-        int right = getCount(m, n, rowIndex, colIndex+1);
-        dp[rowIndex][colIndex] = down + right;
-        return dp[rowIndex][colIndex];
+        if(memo[top][right]!=null){
+            return memo[top][right];
+        }
+        int count1 = getCount(m,n,top+1, right);
+        int count2 = getCount(m,n,top, right+1);
+        memo[top+1][right] = count1;
+        memo[top][right+1] = count2;
+        return count1+count2;
     }
 }
