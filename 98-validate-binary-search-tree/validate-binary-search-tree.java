@@ -16,24 +16,19 @@
 class Solution {
     Integer prev = null;
     public boolean isValidBST(TreeNode root) {
-        return inOrder(root);
+        return inOrder(root, Long.MIN_VALUE, Long.MAX_VALUE);
     }
 
-    private boolean inOrder(TreeNode root){
-        if(root == null){
+    private boolean inOrder(TreeNode root, long min, long max){
+        if(root==null){
             return true;
         }
-        boolean left = inOrder(root.left);
-        if(prev!=null && root.val<=prev){
+        if(root.val<=min || root.val>=max){
             return false;
-        } else {
-            prev=root.val;
         }
-        boolean right = inOrder(root.right);
-        return left == true && right == true;
+        boolean leftResult = inOrder(root.left, min, root.val);
+        boolean rightResult = inOrder(root.right, root.val, max);
+        return leftResult&&rightResult;
+        
     }
-
-    
-
-  
 }
