@@ -19,33 +19,27 @@ class Solution {
     }
 
     private List<List<Integer>> bfs(TreeNode root){
-        List<TreeNode> nodes = new ArrayList<>();
+        Queue<TreeNode> nodes = new LinkedList<>();
         List<List<Integer>> result = new ArrayList<>();
-        List<Integer> tempRes = new ArrayList<>();
+        
         if(root!=null){
-            nodes.add(root.left);
-            nodes.add(root.right);
-            tempRes.add(root.val);
-            result.add(tempRes);
+            nodes.add(root);
         }
         
-        
-        
-        while(true){
-            List<TreeNode> tempNodes = new ArrayList<>();
-            tempRes = new ArrayList<>();
-            for(int i=0;i<nodes.size();i++){
-                TreeNode node = nodes.get(i);
+        while(!nodes.isEmpty()){
+            Queue<TreeNode> tempNodes = new LinkedList<>();
+            List<Integer> tempRes = new ArrayList<>();
+
+            while(!nodes.isEmpty()){
+                TreeNode node = nodes.poll();
                 if(node!=null){
                     tempNodes.add(node.left);
                     tempNodes.add(node.right);
                     tempRes.add(node.val);
                 }
             }
-            if(tempRes.size()==0){
-                break;
-            }
-            result.add(tempRes);
+            if(tempRes.size()>0)
+                result.add(tempRes);
             nodes = tempNodes;
         }
 
