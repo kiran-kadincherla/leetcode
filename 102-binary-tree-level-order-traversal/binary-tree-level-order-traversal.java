@@ -15,45 +15,41 @@
  */
 class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
-        if(root!=null)
-            return bfs(root);
-        else
-            return new ArrayList<>();
+        return bfs(root);
     }
 
     private List<List<Integer>> bfs(TreeNode root){
+        List<TreeNode> nodes = new ArrayList<>();
         List<List<Integer>> result = new ArrayList<>();
-        Set<TreeNode> visited = new HashSet<>();
-        Queue<TreeNode> nodesInQueue = new LinkedList<>();
-        nodesInQueue.add(root);
-
-        while (true){
-            List<Integer> tempVisitedNodes = new ArrayList<>();
-            Queue<TreeNode> tempQueue = new LinkedList<>();
-            while(nodesInQueue != null && !nodesInQueue.isEmpty()){
-                TreeNode node = nodesInQueue.poll();
-                tempVisitedNodes.add(node.val);
-                visited.add(node);
-                if(node.left!=null && !visited.contains(node.left)){
-                    tempQueue.add(node.left);
+        List<Integer> tempRes = new ArrayList<>();
+        if(root!=null){
+            nodes.add(root.left);
+            nodes.add(root.right);
+            tempRes.add(root.val);
+            result.add(tempRes);
+        }
+        
+        
+        
+        while(true){
+            List<TreeNode> tempNodes = new ArrayList<>();
+            tempRes = new ArrayList<>();
+            for(int i=0;i<nodes.size();i++){
+                TreeNode node = nodes.get(i);
+                if(node!=null){
+                    tempNodes.add(node.left);
+                    tempNodes.add(node.right);
+                    tempRes.add(node.val);
                 }
-                if(node.right!=null && !visited.contains(node.right)){
-                    tempQueue.add(node.right);
-                }
-
             }
-            if(!tempVisitedNodes.isEmpty()){
-                result.add(tempVisitedNodes);
-            }
-            if(tempQueue.isEmpty()){
+            if(tempRes.size()==0){
                 break;
-            } else {
-                nodesInQueue = tempQueue;
             }
-            
-
+            result.add(tempRes);
+            nodes = tempNodes;
         }
 
         return result;
+
     }
 }
