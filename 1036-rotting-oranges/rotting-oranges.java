@@ -29,7 +29,7 @@ class Solution {
             }
             
             if(rottenIndeces.size()>0){
-                System.out.println("resultttt."+result+" ..rottenIndeces.."+rottenIndeces);
+                //System.out.println("resultttt."+result+" ..rottenIndeces.."+rottenIndeces);
                 for(Integer index : rottenIndeces)
                     indicesQueue.offer(index);
                 result++;
@@ -54,7 +54,7 @@ class Solution {
 
 
     private List<Integer> fill(int[][] grid, int i, int j){
-        System.out.println("rack.."+i+"..j.."+j);
+        //System.out.println("rack.."+i+"..j.."+j);
         List<Integer> rottenIndeces = new ArrayList<>();
             if(i-1>=0 && grid[i-1][j]==1){ //top
                 grid[i-1][j]=2;
@@ -77,7 +77,7 @@ class Solution {
 
     private int getOneDArrayIndexCount(int i, int j){
             int index = (i * maxCol) + j;
-            System.out.println("final index."+ index);
+            //System.out.println("final index."+ index);
             return index;
     }
 }
