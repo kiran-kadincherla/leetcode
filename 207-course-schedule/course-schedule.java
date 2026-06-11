@@ -1,47 +1,61 @@
 class Solution {
-
      public boolean canFinish(int numCourses, int[][] prerequisites) {
         Map<Integer, List<Integer>> adjList = new HashMap<>();
+        int[] inDegree = new int[numCourses];
 
-        for (int[] edge : prerequisites) {
-            adjList.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+        Arrays.fill(inDegree, 0);
+
+        for(int i=0;i<prerequisites.length;i++){
+            int[] j = prerequisites[i];
+            List list = adjList.getOrDefault(j[1], new ArrayList<Integer>());
+            list.add(j[0]);
+            adjList.put(j[1], list);
+            inDegree[j[0]] = inDegree[j[0]]+1;
         }
 
-        return isAcyclic(adjList, numCourses);
+        System.out.println("** adjList ** "+ adjList);
+        
+        for (int i=0;i<inDegree.length;i++) {
+            System.out.println("indegree.. "+ inDegree[i]);
+        }
+
+        return !isLinked(adjList, inDegree);
+        
     }
 
-    private boolean isAcyclic(Map<Integer, List<Integer>> edges, int numCourses){
-        int[] inDegree = new int[numCourses];
-        Stack<Integer> stack = new Stack<>();
-        int noOfNodesProcessed = 0;
-
-        for(List<Integer> connectedEdges : edges.values()){
-            if(connectedEdges != null){
-                for(Integer connectedEdge : connectedEdges) {
-                    inDegree[connectedEdge] += 1;
-                }
+    private boolean isLinked(Map<Integer, List<Integer>> adjList, 
+                            int[] inDegree){
+        Stack<Integer> itemsToBeRemoved = new Stack<>();
+        for (int i=0;i<inDegree.length;i++) {
+            if(inDegree[i]==0){
+                itemsToBeRemoved.push(i);
             }
         }
 
-        for(int i=0;i<inDegree.length;i++){
-            if(inDegree[i] == 0){
-                stack.add(i);
-            }
-        }
-
-        while(!stack.isEmpty()){
-            int node = stack.pop();
-            List<Integer> connectedEdges = edges.get(node);
-            if(connectedEdges != null){
-                for(Integer neighbor : connectedEdges) {
-                    inDegree[neighbor]--;
-                    if (inDegree[neighbor] == 0) {
-                        stack.push(neighbor);
+        while(!itemsToBeRemoved.isEmpty()){
+            int poppedIndex = itemsToBeRemoved.pop();
+            List<Integer> adj = adjList.getOrDefault(poppedIndex, new ArrayList<>());
+            
+            if(!adj.isEmpty()){
+                
+                for(Integer index : adj){
+                    inDegree[index]=inDegree[index]-1;
+                    System.out.println(" .. adjList .. "+ adj + " .. inDegree[index] "+ inDegree[index] + " index " + index);
+                    if(inDegree[index]==0){
+                        itemsToBeRemoved.push(index);
                     }
                 }
             }
-            noOfNodesProcessed++;
         }
-        return noOfNodesProcessed == numCourses;
+
+        for (int i=0;i<inDegree.length;i++) {
+            System.out.println("indegree**** "+ inDegree[i]);
+            if(inDegree[i]>0){
+                return true;
+            }
+        }
+
+        return false;
+
     }
 }
