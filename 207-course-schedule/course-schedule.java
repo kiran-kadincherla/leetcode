@@ -13,12 +13,6 @@ class Solution {
             inDegree[j[0]] = inDegree[j[0]]+1;
         }
 
-        System.out.println("** adjList ** "+ adjList);
-        
-        for (int i=0;i<inDegree.length;i++) {
-            System.out.println("indegree.. "+ inDegree[i]);
-        }
-
         return !isLinked(adjList, inDegree);
         
     }
@@ -40,7 +34,6 @@ class Solution {
                 
                 for(Integer index : adj){
                     inDegree[index]=inDegree[index]-1;
-                    System.out.println(" .. adjList .. "+ adj + " .. inDegree[index] "+ inDegree[index] + " index " + index);
                     if(inDegree[index]==0){
                         itemsToBeRemoved.push(index);
                     }
@@ -49,7 +42,6 @@ class Solution {
         }
 
         for (int i=0;i<inDegree.length;i++) {
-            System.out.println("indegree**** "+ inDegree[i]);
             if(inDegree[i]>0){
                 return true;
             }
