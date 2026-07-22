@@ -6,7 +6,7 @@ class Solution {
     public int characterReplacement(String s, int k) {
         for(int i=0;i<s.length();i++){
         freq.put(s.charAt(i), freq.getOrDefault(s.charAt(i), 0)+1);
-        //maxFreq = Math.max(freq.get(s.charAt(i)), maxFreq);
+        maxFreq = Math.max(freq.get(s.charAt(i)), maxFreq);
         int count = getNoOfReplacements(i-left+1);
         //System.out.println("count"+count);
         while(count>k){
@@ -22,16 +22,16 @@ class Solution {
     }
 
     int getNoOfReplacements(int totalChars){
-        if(freq!=null){
-            Map.Entry<Character, Integer> top = freq.entrySet()
-        .stream()
-        .max(Map.Entry.comparingByValue())
-        .orElse(null);
-        return totalChars - top.getValue();
-        }
-        return 0;
+        // if(freq!=null){
+        //     Map.Entry<Character, Integer> top = freq.entrySet()
+        // .stream()
+        // .max(Map.Entry.comparingByValue())
+        // .orElse(null);
+        // return totalChars - top.getValue();
+        // }
+        // return 0;
        
-        
+       return totalChars-maxFreq; 
     }
     
 }
