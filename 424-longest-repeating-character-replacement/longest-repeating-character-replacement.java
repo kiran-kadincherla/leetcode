@@ -8,13 +8,13 @@ class Solution {
         freq.put(s.charAt(i), freq.getOrDefault(s.charAt(i), 0)+1);
         //maxFreq = Math.max(freq.get(s.charAt(i)), maxFreq);
         int count = getNoOfReplacements(i-left+1);
-        System.out.println("count"+count);
+        //System.out.println("count"+count);
         while(count>k){
                 freq.put(s.charAt(left), freq.get(s.charAt(left))-1);
                 //maxFreq = Math.max(freq.get(s.charAt(left)),maxFreq);
                 left++;
                 count = getNoOfReplacements(i-left+1);
-                System.out.println("count----"+count);
+                //System.out.println("count----"+count);
         }
         maxLength = Math.max(i-left+1, maxLength);
         }
