@@ -16,10 +16,10 @@ class Solution {
                 break;
             }
         }
-        System.out.print("index"+index);
+        //System.out.print("index"+index);
         if(index!=-1){
             int smallestIndex = getSmallestNumberIndex(nums, index);
-            System.out.print("smallestIndex"+smallestIndex);
+            //System.out.print("smallestIndex"+smallestIndex);
             int temp = nums[smallestIndex];
             nums[smallestIndex] = nums[index];
             nums[index] = temp;
