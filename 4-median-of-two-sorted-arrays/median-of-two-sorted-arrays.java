@@ -1,64 +1,165 @@
 class Solution {
-
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        // Always binary search on the smaller array
-        if (nums1.length > nums2.length) {
-            return findMedianSortedArrays(nums2, nums1);
-        }
+        return getMedian(nums1, nums2);
+    }
 
+    private double getMedian(int[] nums1, int[] nums2){
         int totalLength = nums1.length + nums2.length;
-        int leftSize = (totalLength + 1) / 2;
+        boolean isNum1Smaller = nums1.length < nums2.length;
 
-        int low = 0;
-        int high = nums1.length;
+        int l1 = 1;
+        int l2 = 1;
+        int r1 = 0;
+        int r2 = 0;
 
-        while (low <= high) {
+        int low1 = 0;
+        int low2 = 0;
+        int high1 = nums1.length;
+        int high2 = nums2.length;
 
-            // Partition in nums1
-            int mid1 = low + (high - low) / 2;
+        double result = 0;
 
-            // Partition in nums2
-            int mid2 = leftSize - mid1;
+        int noOFItemsRequired = 0;
+        int leftSize = 0;
 
-            double l1 = (mid1 == 0)
-                    ? Double.NEGATIVE_INFINITY
-                    : nums1[mid1 - 1];
+        while(low1 <= high1 && low2 <= high2){
 
-            double r1 = (mid1 == nums1.length)
-                    ? Double.POSITIVE_INFINITY
-                    : nums1[mid1];
+            int mid = 0;
 
-            double l2 = (mid2 == 0)
-                    ? Double.NEGATIVE_INFINITY
-                    : nums2[mid2 - 1];
+            if(isNum1Smaller){
 
-            double r2 = (mid2 == nums2.length)
-                    ? Double.POSITIVE_INFINITY
-                    : nums2[mid2];
+                mid = low1 + ((high1 - low1) / 2);
 
-            // Correct partition
-            if (l1 <= r2 && l2 <= r1) {
-
-                // Odd number of elements
-                if (totalLength % 2 != 0) {
-                    return Math.max(l1, l2);
+                if(mid == 0){
+                    l1 = Integer.MIN_VALUE;
+                } else {
+                    l1 = nums1[mid - 1];
                 }
 
-                // Even number of elements
-                return (Math.max(l1, l2) + Math.min(r1, r2)) / 2.0;
+                if(nums1.length - 1 >= mid){
+                    r1 = nums1[mid];
+                } else {
+                    r1 = Integer.MAX_VALUE;
+                }
+
+                leftSize = (totalLength + 1) / 2;
+                noOFItemsRequired = leftSize - mid;
+
+                if(noOFItemsRequired - 1 <= nums2.length - 1 &&
+                   noOFItemsRequired - 1 >= 0){
+
+                    l2 = nums2[noOFItemsRequired - 1];
+
+                } else {
+                    l2 = Integer.MIN_VALUE;
+                }
+
+                if(nums2.length - 1 >= noOFItemsRequired &&
+                   noOFItemsRequired >= 0){
+
+                    r2 = nums2[noOFItemsRequired];
+
+                } else {
+                    r2 = Integer.MAX_VALUE;
+                }
+
+            } else {
+
+                mid = low2 + ((high2 - low2) / 2);
+
+                if(mid == 0){
+                    l1 = Integer.MIN_VALUE;
+                } else {
+                    l1 = nums2[mid - 1];
+                }
+
+                // FIX: nums2.length, not nums1.length
+                if(nums2.length - 1 >= mid){
+                    r1 = nums2[mid];
+                } else {
+                    r1 = Integer.MAX_VALUE;
+                }
+
+                leftSize = (totalLength + 1) / 2;
+                noOFItemsRequired = leftSize - mid;
+
+                if(noOFItemsRequired - 1 <= nums1.length - 1 &&
+                   noOFItemsRequired - 1 >= 0){
+
+                    l2 = nums1[noOFItemsRequired - 1];
+
+                } else {
+                    l2 = Integer.MIN_VALUE;
+                }
+
+                // FIX: no need for noOFItemsRequired - 1 >= 0 here
+                if(nums1.length - 1 >= noOFItemsRequired &&
+                   noOFItemsRequired >= 0){
+
+                    r2 = nums1[noOFItemsRequired];
+
+                } else {
+                    r2 = Integer.MAX_VALUE;
+                }
             }
 
-            // Partition in nums1 is too far RIGHT
-            if (l1 > r2) {
-                high = mid1 - 1;
-            }
+            System.out.println(
+                "l1. " + l1 +
+                " l2.. " + l2 +
+                " r1 " + r1 +
+                " r2 " + r2 +
+                " noOFItemsRequired " + noOFItemsRequired
+            );
 
-            // Partition in nums1 is too far LEFT
-            else {
-                low = mid1 + 1;
+            // FIX: correct partition condition
+            if(l1 <= r2 && l2 <= r1){
+
+                if(totalLength % 2 == 0){
+
+                    System.out.println(
+                        "test..." + Math.max(l1,l2) +
+                        " Math.min(r1,r2) " + Math.min(r1,r2)
+                    );
+
+                    double leftMax = Math.max(l1, l2);
+                    double rightMin = Math.min(r1, r2);
+
+                    double total = leftMax + rightMin;
+
+                    result = total / 2;
+
+                    System.out.println(
+                        "result..." + result +
+                        " total " + total
+                    );
+
+                } else {
+
+                    result = l1 > l2 ? l1 : l2;
+                }
+
+                break;
+
+            // Partition is too far RIGHT
+            } else if(l1 > r2){
+
+                if(isNum1Smaller){
+                    high1 = mid - 1;
+                } else {
+                    high2 = mid - 1;
+                }
+
+            // Partition is too far LEFT
+            } else if(l2 > r1){
+
+                if(isNum1Smaller){
+                    low1 = mid + 1;
+                } else {
+                    low2 = mid + 1;
+                }
             }
         }
 
-        return 0.0;
+        return result;
     }
 }
