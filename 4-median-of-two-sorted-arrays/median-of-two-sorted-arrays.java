@@ -69,15 +69,15 @@ class Solution {
                     r2 = Integer.MAX_VALUE;
                 }
             }
-            System.out.println("l1. "+l1 + " l2.."+ l2 + " r1 "+r1 + " r2 " + r2 +" noOFItemsRequired "+ noOFItemsRequired + "mid..");
+            // System.out.println("l1. "+l1 + " l2.."+ l2 + " r1 "+r1 + " r2 " + r2 +" noOFItemsRequired "+ noOFItemsRequired + "mid..");
             if(l1 <= r2 && l2 <= r1){
                 if(totalLength%2==0){
-                    System.out.println("test..."+ Math.max(l1,l2) + " Math.min(r1,r2) " + Math.min(r1,r2));
+                    //System.out.println("test..."+ Math.max(l1,l2) + " Math.min(r1,r2) " + Math.min(r1,r2));
                     double leftMax = Math.max(l1,l2);
                     double rightMin = Math.min(r1,r2);
                     double total = leftMax+rightMin;
                     result = total/2;
-                    System.out.println("result..."+ result +" total "+total);
+                    //System.out.println("result..."+ result +" total "+total);
                 } else {
                     result = l1 > l2 ? l1 : l2;
                 }
