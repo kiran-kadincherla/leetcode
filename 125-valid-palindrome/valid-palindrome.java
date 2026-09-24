@@ -3,7 +3,8 @@ class Solution {
         String sanitizedString = getSanitizedString(s);
         //System.out.println(sanitizedString + " .. "+ new StringBuilder(sanitizedString).reverse());
         String reversed = new StringBuilder(sanitizedString).reverse().toString();
-        return sanitizedString.equals(reversed);
+        return new StringBuilder(sanitizedString).reverse().toString().equals(sanitizedString);
+        //return sanitizedString.equals(reversed);
     }
 
     private String getSanitizedString(String input){
