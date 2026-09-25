@@ -19,6 +19,6 @@ class Solution {
         //System.out.println("index .. "+ currentIndex);
         getClosestTarget(toppingCosts, target, currentSum, currentIndex+1);
         getClosestTarget(toppingCosts, target, currentSum+toppingCosts[currentIndex], currentIndex+1);
-        getClosestTarget(toppingCosts, target, currentSum+toppingCosts[currentIndex]+toppingCosts[currentIndex], currentIndex+1);
+        getClosestTarget(toppingCosts, target, currentSum+ 2 * toppingCosts[currentIndex], currentIndex+1);
     }
 }
