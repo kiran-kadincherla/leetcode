@@ -6,24 +6,6 @@ class Solution {
         return result;
     }
 
-    // public void generatePermutation(int[] nums, List<Integer> currentPermutation, Set<Integer> indexes){
-    //     if(currentPermutation.size() == nums.length){
-    //         result.add(new ArrayList<>(currentPermutation));
-    //         return;
-    //     }
-    //     for(int i=0;i<nums.length;i++){
-    //         if(indexes.contains(i)){
-    //             continue;
-    //         }
-    //         currentPermutation.add(nums[i]);
-    //         indexes.add(i);
-    //         generatePermutation(nums, currentPermutation, indexes);
-    //         currentPermutation.remove(currentPermutation.size()-1);
-    //         indexes.remove(i);
-    //     }
-        
-    // }
-
     public void generatePermutation(
             int[] nums,
             List<Integer> currentPermutation,
