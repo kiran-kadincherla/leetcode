@@ -6,9 +6,7 @@ class Solution {
     }
 
     private void validParenthesis(int n, StringBuilder parenthesis, int openCount, int closeCount){
-        if(openCount > n || closeCount > n){
-            return;
-        }
+        
         if(openCount == n && closeCount == n){
             result.add(parenthesis.toString());
             return;
