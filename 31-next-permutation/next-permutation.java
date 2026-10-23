@@ -1,46 +1,27 @@
-class Solution {
+import java.util.*;
 
-
+public class Solution {
     public void nextPermutation(int[] nums) {
-        int index=-1;
-        for(int i=nums.length-2;i>=0;i--){
-            if(nums[i]<nums[i+1]){
-                index=i;
-                break;
+        int pivot=nums.length-2;
+        while(pivot>=0 && nums[pivot]>=nums[pivot+1]){
+            pivot--;
+        }
+        if(pivot != -1){
+            int right = nums.length-1;
+            while(right>pivot && nums[pivot]>=nums[right]){
+                right--;
             }
+            int temp = nums[pivot];
+            nums[pivot]=nums[right];
+            nums[right]=temp;
         }
-        //System.out.print("index"+index);
-        if(index!=-1){
-            int smallestIndex = getSmallestNumberIndex(nums, index);
-            //System.out.print("smallestIndex"+smallestIndex);
-            int temp = nums[smallestIndex];
-            nums[smallestIndex] = nums[index];
-            nums[index] = temp;
-            
-        }
-        reverse(index,nums);
-        
-    }
-
-    private int getSmallestNumberIndex(int[] nums, int index){
-        int smallestIndex = -1;
-        for(int i=nums.length-1;i>=index+1;i--)
-        {
-            if(nums[i] > nums[index]){
-                smallestIndex=i;
-                break;
+        int start = pivot+1;
+        int end = nums.length-1;
+        int temp = -1;
+            while(start<end){
+                temp = nums[start];
+                nums[start++] = nums[end];
+                nums[end--] = temp;
             }
-        }
-        return smallestIndex;
-    }
-
-    private void reverse(int index, int[] nums){
-        int left = index+1;
-        int right = nums.length-1;
-        while(left < right){
-            int temp = nums[left];
-            nums[left++]=nums[right];
-            nums[right--]=temp;
-        }
     }
 }
